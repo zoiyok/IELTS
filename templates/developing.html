@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../static/favicon.ico">
+    <linkrel="Bookmark" href="../static/favicon.ico">
+        </linkrel>
+        <link rel="stylesheet" href="static/css/index.css">
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+        <title>功能开发中...</title>
+</head>
+
+<script>
+    function myFunction() {
+        window.location.href = 'input';
+    }
+    function reciteFunction() {
+        window.location.href = 'reciteOrder';
+    }
+    function back() {
+        window.location.href = '/';
+    }
+    function base() {
+        window.location.href = '/wordbase';
+    }
+    function star() {
+        window.location.href = '/starWords';
+    }
+    window.onload = function () {
+        $.get("/check", function (data) {
+            // alert(data);
+        });
+    }
+</script>
+
+<style>
+    img {
+        width: 25%;
+    }
+
+    .box {
+        margin: 0 auto;
+        text-align: center;
+        margin-top: 50px;
+    }
+
+    .word {
+        width: 100%;
+        text-align: center;
+        font-size: 25px;
+        color: rgba(53, 132, 211, 0.699);
+    }
+</style>
+
+<body>
+    <div class="top-nav">
+        <img src="../static/jpg/back.jpg" class="navPic"
+            style="width: 80px;position: absolute;margin-top: 15px;margin-left: 130px;" />
+        <div class="shouye nav" onclick="back()">首页</div>
+        <div class="ciku nav" onclick="base()">词库</div>
+        <div class="star nav" onclick="star()">星标单词</div>
+    </div>
+    <div class="box">
+        <img src="../static/png/developing.png" alt="">
+    </div>
+    <div class="word">本功能正在开发中，敬请期待！</div>
+</body>
+
+</html>

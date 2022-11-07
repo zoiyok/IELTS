@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en" style="overflow:hidden;">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../static/favicon.ico"><linkrel="Bookmark" href="../static/favicon.ico"></linkrel>
+    <link rel="stylesheet" href="static/css/index.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="static/js/done.js"></script>
+    <title>顺序背诵单词-新东方</title>
+</head>
+
+<script>
+    var indexNum = 1;
+    var listLenth;
+    var starGlo;
+    function myFunction() {
+        window.location.href='inputXdf';
+    }
+    function back(){
+        window.location.href = '/xdf';
+    }
+    function base(){
+        window.location.href = '/wordbaseXdf';
+    }
+    function star(){
+        window.location.href = '/starWordsXdf';
+    }
+    function goToStar(){
+        window.location.href = '/reciteStarXdf';
+    }
+    var data2;
+    var answer;
+    window.onload=function(){
+        listLenth = $('#listLenth1').text();
+        $.post("/recitepostXdf", {'indexNum':listLenth}, function(data){
+            data2 = $.parseJSON(data);
+            answer = data2.chinese;
+            $('#a').text(data2.word);
+            $('#b').text(data2.time);
+            $('#answerBox').text(data2.chinese);
+            starGlo = data2.star;
+            if(data2.star == 0){ $('#starImg').attr('src','../static/png/star.png'); }
+            else{ $('#starImg').attr('src','../static/png/starLight.png'); }
+        });
+        $(".bigBox").attr({
+            "style": "opacity: 1;"
+        })
+    }
+    function a(){
+        var inputVal = $('#CSDN_NAME').val();
+        if(inputVal == answer){
+            listLenth = listLenth - 1;
+            $.post("/recitepostXdf", {'indexNum':listLenth}, function(data){
+                data2 = $.parseJSON(data);
+                answer = data2.chinese;
+                $('#a').text(data2.word);
+                $('#b').text(data2.time);
+                $('#CSDN_NAME').val('');
+                document.getElementById('answerBox').style.color = 'white';
+                if (data2.star == 0) { $('#starImg').attr('src','../static/png/star.png'); }
+                else { $('#starImg').attr('src','../static/png/starLight.png'); }
+                starGlo = data2.star;
+            });
+        }else{
+            alert('答案错误！');
+        }
+    }
+    function next(){
+        listLenth = listLenth - 1;
+        $.post("/recitepostXdf", {'indexNum':listLenth}, function(data){
+            data2 = $.parseJSON(data);
+            answer = data2.chinese;
+            $('#a').text(data2.word);
+            $('#b').text(data2.time);
+            $('#CSDN_NAME').val('');
+            document.getElementById('answerBox').style.color = 'white';
+            if (data2.star == 0) { $('#starImg').attr('src','../static/png/star.png'); }
+            else { $('#starImg').attr('src','../static/png/starLight.png'); }
+            starGlo = data2.star;
+        });
+    }
+    function show(){
+        $('#answerBox').text(data2.chinese);
+        document.getElementById('answerBox').style.color = 'black';
+    }
+    function play(){
+        var audio = document.getElementById('audio');
+        audio.src = 'http://dict.youdao.com/dictvoice?type=1&audio='+data2.word;
+        audio.play();
+    }
+    function goToRand(){
+        window.location.href = '/reciteRandXdf';
+    }
+    function clickStar(){
+        if (starGlo == 0) {
+            $.post("/addStarXdf", {
+                'starId': data2.id
+            }, function (data) {
+                starGlo = 1;
+                $('#starImg').attr('src','../static/png/starLight.png');
+            });
+        }
+        if (starGlo == 1) {
+            $.post("/cancelStarXdf", {
+                'starId': data2.id
+            }, function (data) {
+                starGlo = 0;
+                $('#starImg').attr('src','../static/png/star.png');
+            });
+        }
+    }
+    function developing(){
+        window.location.href='developing';
+    }
+    $(document).ready(function () {
+        $("#CSDN_NAME").keydown(function (event) {
+            if (event.keyCode == 13) {
+                a();
+            }
+        });
+    });
+
+</script>
+
+<style>
+    .box{
+        width: 700px;
+        margin: 0 auto;
+        text-align: center;
+        margin-top: 50px;
+    }
+    #answerBox{
+        width: 100%;
+        height: 0;
+        text-align: center;
+        margin-top: 10px;
+        font-family: 'Times New Roman';
+        font-size: 22px;
+        color: white;
+        display: block;
+        transition: all 0.2s;
+    }
+    .next{
+        width: 350px;
+        margin: 0 auto;
+        margin-top: 50px;
+        height: 40px;
+        border: none;
+        border-radius: 8px;
+        background-color: rgba(0, 211, 183, 0.658);
+        color: white;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    .next:hover{
+        background-color: rgba(0, 145, 125, 0.658);
+        transition: all 0.2s;
+    }
+    #b{
+        width: 100%;
+        text-align: center;
+        margin-top: 10px;
+        color: rgb(190, 190, 190);
+        font-weight: bolder;
+        font-family: 'Misans';
+    }
+    #CSDN_NAME{
+        width: 250px;
+        height: 40px;
+        border-radius: 10px;
+        border: none;
+        box-shadow: 0 0 0 1px rgba(33,151,239,.02),0 2px 8px 2px rgba(33, 150, 239, 0.24);
+        padding-left: 15px;
+        transition: all 0.2s;
+    }
+    #CSDN_NAME:focus{
+        width: 250px;
+        height: 40px;
+        border-radius: 10px;
+        outline:none;
+        box-shadow: 0 0 0 1px rgba(33,151,239,.02),0 2px 15px 6px rgba(33, 150, 239, 0.19);
+        transition: all 0.2s;
+    }
+    .confirm{
+        width: 60px;
+        height: 40px;
+        border: none;
+        border-radius: 8px;
+        background-color: rgba(33, 150, 239, 0.99);
+        color: white;
+        margin-left: 20px;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    .confirm:hover{
+        background-color: rgba(0, 101, 179, 0.99);
+        transition: all 0.2s;
+    }
+    .check{
+        width: 150px;
+        height: 35px;
+        border: none;
+        border-radius: 8px;
+        background-color: rgba(0, 192, 48, 0.678);
+        color: white;
+        margin-left: 20px;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    .check:hover{
+        background-color: rgb(0, 182, 45);
+        transition: all 0.2s;
+    }
+    #a{
+        width: 100%;
+        text-align: center;
+        font-size: 30px;
+        color: rgb(0, 104, 196);
+        display: inline;
+        font-weight: bold;
+        font-family: 'MiSans';
+    }
+    .showAnswer{
+        width: 350px;
+        margin: 0 auto;
+        margin-top: 10px;
+        height: 40px;
+        border: none;
+        border-radius: 8px;
+        background-color: rgba(211, 0, 211, 0.479);
+        color: white;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    .showAnswer:hover{
+        background-color: rgb(194, 115, 194);
+        transition: all 0.2s;
+    }
+    #month,#day{
+        width: 40px;
+        height: 30px;
+        border-radius: 5px;
+        border: none;
+        box-shadow: 0 0 0 1px rgba(33,151,239,.02),0 2px 8px 2px rgba(33, 150, 239, 0.24);
+        padding-left: 15px;
+        transition: all 0.2s;
+        margin-right: 10px;
+        margin-left: 10px;
+        text-align: center;
+        padding-left: 0;
+    }
+    #month:focus,#day:focus{
+        width: 45px;
+        height: 30px;
+        border-radius: 5px;
+        outline:none;
+        box-shadow: 0 0 0 1px rgba(33,151,239,.02),0 2px 15px 6px rgba(33, 150, 239, 0.19);
+        transition: all 0.2s;
+        text-align: center;
+        padding-left: 0;
+    }
+    .date{
+        width: 100%;
+        text-align: center;
+        margin-top: 50px;
+    }
+    .playBtn{
+        width: 30px;
+        text-align: center;
+        cursor: pointer;
+    }
+    .btn_box{
+        width: 100%;
+        text-align: center;
+        margin-top: 50px;
+    }
+    .left{
+        width: 150px;
+        height: 100%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        margin-top: 70px;
+        text-align: center;
+        box-shadow: 1px 1px 15px 1px rgba(0, 0, 0, 0.185);
+    }
+    .order,.random{
+        margin-top: 30px;
+        font-weight: bold;
+        color: rgb(130, 130, 130);
+        cursor: pointer;
+    }
+    .order{
+        background-color: rgb(221, 0, 147);
+        width: 120px;
+        margin: 0 auto;
+        margin-top: 50px;
+        height: 35px;
+        line-height: 35px;
+        border-radius: 999px;
+        color: white;
+    }
+    .hanyuBox{
+        text-align: center;
+        margin-top: 50px;
+    }
+    #starImg{
+        width: 25px;
+        margin-left: 10px;
+        cursor: pointer;
+    }
+    .bigBox{
+        opacity: 0;
+        transition: all 0.4s;
+    }
+</style>
+
+<body>
+    <span id="listLenth1" style="display: none;">{{listLenth}}</span>
+
+    <div class="top-nav">
+        <img src="../static/png/xdf.png" class="navPic" style="width: 80px;position: absolute;
+                                                                margin-top: 15px;margin-left: 130px;"></img>
+        <div class="shouye nav" onclick="back()">首页</div>
+        <div class="ciku nav" onclick="base()">新东方词库</div>
+        <div class="star nav" onclick="star()">星标单词</div>
+    </div>
+
+    <div class="bigBox">
+        <div class="date">
+            <!-- <form action="" method="post"> -->
+                <input type="text" name="month" placeholder="" id="month" autocomplete="off">月
+                <input type="text" name="day" placeholder="" id="day" autocomplete="off">日ㅤ
+                <button onclick="developing()" class="check">查看当天单词</button>
+            <!-- </form> -->
+        </div>
+    
+        <div class="box">
+            <input type="text" id="CSDN_NAME" autocomplete="off" placeholder="请输入英文单词"></input>
+            <button class="confirm" onclick="a()">确 认</button><br>
+            <button class="next" onclick="next()">查看下一个</button>
+            <button class="showAnswer" onclick="show()">查看答案</button>
+        </div>
+    
+        <div id="answerBox"></div>
+    
+        <div class="hanyuBox">
+            <div id="a" class="hanyu"></div>
+            <img src="../static/png/star.png" id="starImg" onclick="clickStar()">
+        </div>
+    
+        <audio controls id="audio" preload="auto" src="http://dict.youdao.com/dictvoice?type=1&audio=a" style="display: none;"></audio>
+    
+        <div id="b" class="date"></div>
+    
+        <div class="btn_box" onclick="play()">
+            <img src="../static/png/播放.png" class="playBtn">
+        </div>
+    </div>
+
+    <div class="left">
+        <div class="order">顺序背单词</div>
+        <div class="random" onclick="goToRand()">乱序背单词</div>
+        <div class="random" onclick="goToStar()">背星标单词</div>
+    </div>
+
+</body>

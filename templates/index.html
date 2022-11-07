@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../static/favicon.ico"><linkrel="Bookmark" href="../static/favicon.ico"></linkrel>
+    <link rel="stylesheet" href="static/css/index.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="static/js/done.js"></script>
+    <title>IELTS-雅思单词背诵</title>
+</head>
+
+<script>
+    function myFunction() {
+        window.location.href='input';
+    }
+    function reciteFunction() {
+        window.location.href='reciteOrder';
+    }
+    function xdf(){
+        window.location.href = '/xdf';
+    }
+    function back(){
+        window.location.href = '/';
+    }
+    function base(){
+        window.location.href = '/wordbase';
+    }
+    function star(){
+        window.location.href = '/starWords';
+    }
+    window.onload = function(){
+        $.get("/check", function(data){
+            // alert(data);
+        });
+        $(".add").attr({
+            "style": "opacity: 1;"
+        });
+        $(".recite").attr({
+            "style": "opacity: 1;"
+        });
+    }
+</script>
+
+<style>
+    body{
+        background-image: url("../static/png/background.png");
+        background-size: cover;
+    }
+    .today{
+        cursor: pointer;
+    }
+</style>
+
+<body>
+    <div class="top-nav">
+        <img src="../static/jpg/back.jpg" class="navPic"
+             style="width: 80px;position: absolute;margin-top: 15px;margin-left: 130px;"/>
+        <div class="shouye nav" onclick="back()">首页</div>
+        <div class="ciku nav" onclick="base()">词库</div>
+        <div class="star nav" onclick="star()">星标单词</div>
+    </div>
+
+    <div class="a">
+        <div class="add menu" id="add" onclick="myFunction()">
+            <img src="static/png/添加.png" style="width: 40px;float: left; margin-top: 45px; margin-left: 70px; margin-right: 10px;">
+            添加单词
+        </div>
+        <div class="recite menu" id="recite" onclick="reciteFunction()">
+            <img src="static/png/书.png" style="width: 40px;float: left; margin-top: 45px; margin-left: 70px; margin-right: 10px;">
+            背诵单词
+        </div>
+        <div class="today" onclick="xdf()">
+            今日单词背诵任务已完成！
+        </div>
+    </div>
+
+</body>

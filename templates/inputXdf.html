@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../static/favicon.ico">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <linkrel="Bookmark" href="../static/favicon.ico">
+        </linkrel>
+        <link rel="stylesheet" href="static/css/index.css">
+        <title>添加单词-新东方</title>
+</head>
+
+<style>
+    .top-nav {
+        width: 100%;
+        height: 70px;
+        box-shadow: 1px 1px 15px 1px rgba(0, 0, 0, 0.185);
+        position: sticky;
+        color: rgba(255, 255, 255, 0.753);
+        z-index: 999;
+        backdrop-filter: blur(25px);
+    }
+    form {
+        width: 400px;
+        height: 450px;
+        text-align: center;
+        background-color: rgba(248, 250, 252, 0.3);
+        backdrop-filter: blur(25px);
+        border-radius: 20px;
+        border: 1px solid rgba(121, 114, 219, 0.062);
+        opacity: 0;
+        transition: all 0.5s;
+    }
+    .topPic {
+        width: 30%;
+        position: absolute;
+        margin: auto;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+    }
+    .top_pic {
+        width: 60%;
+        height: 100%;
+        margin: 0 auto;
+        text-align: center;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+    }
+    .shouye,
+    .ciku {
+        cursor: pointer;
+    }
+    input {
+        width: 50%;
+        color: rgb(121, 114, 219);
+        height: 10%;
+        margin: 0 auto;
+        background-color: rgba(255, 255, 255, 0.4);
+        margin-top: 50px;
+        border-radius: 900px;
+        border: 1px solid rgba(121, 114, 219, 0.15);
+        transition: all 0.2s;
+        padding-left: 30px;
+        font-size: 16px;
+    }
+    input:focus {
+        outline: none;
+        box-shadow: 0 0 0 1px rgba(121, 114, 219, 0.1), 0 2px 15px 6px rgba(121, 114, 219, 0.1);
+        border: 1px solid rgba(197, 194, 240, 0);
+        transition: all 0.2s;
+        background-color: rgba(255, 255, 255, 0.6);
+    }
+    button {
+        display: block;
+        margin: 0 auto;
+        margin-top: 50px;
+        background-color: rgba(255, 255, 255, 0);
+        width: 50px;
+        height: 50px;
+        background-size: cover;
+        border: none;
+        cursor: pointer;
+        background-image: url('../static/png/对号.png');
+    }
+    body{
+        background-image: url("../static/jpg/xdfBG.jpg");
+        background-size: cover;
+    }
+    .bigBox {
+        display: flex;
+        align-items: center;          /*垂直居中*/
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        margin-right: 180px;
+        right: 0;
+    }
+    .titleText{
+        margin-bottom: 20px;
+        font-family: 'MiSans';
+        font-weight: 500;
+        color: rgb(255, 255, 255);
+        font-size: 18px;
+    }
+    .inputBase{
+        width: 40px;
+        vertical-align: middle;
+    }
+    .titleBox{
+        margin-top: 40px;
+    }
+    .goRecite{
+        width: 400px;
+        text-align: center;
+        margin: 0 auto;
+        margin-top: 15px;
+        color: white;
+        opacity: 0.6;
+        transition: all 0.2s;
+    }
+    .goRecite:hover{
+        opacity: 1;
+        transition: all 0.2s;
+        cursor: pointer;
+    }
+</style>
+
+<script>
+    function myFunction() {
+        window.location.href = 'inputXdf';
+    }
+    function importWordXdf() {
+        window.location.href = 'importWordXdf';
+    }
+    function reciteFunction() {
+        window.location.href = 'reciteXdf';
+    }
+    function back() {
+        window.location.href = '/xdf';
+    }
+    function base() {
+        window.location.href = '/wordbaseXdf';
+    }
+    function star() {
+        window.location.href = '/starWordsXdf';
+    }
+    function goRecite(){
+        window.location.href = '/reciteOrderXdf';
+    }
+    window.onload = function () {
+        $("form").attr({
+            "style": "opacity: 1;"
+        });
+    }
+
+</script>
+
+<body>
+    <div class="top-nav">
+        <img src="../static/png/back.png" class="navPic" style="width: 80px;position: absolute;
+                                                                margin-top: 20px;margin-left: 130px;"></img>
+        <div class="shouye nav" onclick="back()">首页</div>
+        <div class="ciku nav" onclick="base()">新东方词库</div>
+        <div class="star nav" onclick="star()">星标单词</div>
+    </div>
+
+    <div class="bigBox">
+        <form action="/inputXdf" method="post">
+            <div class="titleBox">
+                <img src="../static/png/inputBase.webp" class="inputBase"><span class="titleText"> 输入单词添加到新东方词库</span><br>
+            </div>
+            <input type="text" name="word" placeholder="英文单词" required="required" autocomplete="off" id="word"
+                style="margin-top: 30px;"><br>
+            <input type="text" name="chinese" placeholder="中文释义" required="required" autocomplete="off" id="chinese">
+
+            <button onclick="add()"></button>
+            <div class="goRecite" onclick="goRecite()">点我立即去背单词</div>
+            <div class="goRecite" onclick="importWordXdf()">从课堂笔记导入</div>
+        </form>
+    </div>
+
+
+</body>

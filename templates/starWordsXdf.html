@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="../static/favicon.ico"><linkrel="Bookmark" href="../static/favicon.ico"></linkrel>
+   <link href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+   <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+   <link rel="stylesheet" href="static/css/index.css">
+   <title>星标单词词库-新东方</title>
+</head>
+
+<script>
+   function myFunction() {
+      window.location.href='inputXdf';
+   }
+   function back(){
+      window.location.href = '/xdf';
+   }
+   function base(){
+      window.location.href = '/wordbaseXdf';
+   }
+   function star(){
+      window.location.href = '/starWordsXdf';
+   }
+   window.onload = function () {
+      $(".num").attr({
+         "style": "width: 300px; height: 50px; margin-top: 50px;"
+      });
+      $(".box").attr({
+         "style": "margin-top: 50px;"
+      });
+   }
+</script>
+
+<style>
+   *{
+      user-select: auto !important;
+   }
+   .num{
+      margin: 0 auto;
+      margin-top: 0px;
+      width: 300px;
+      height: 0px;
+      background-color: rgb(0, 182, 0);
+      color: white;
+      border-radius: 999px;
+      line-height: 50px;
+      font-size: 20px;
+      text-align: center;
+      font-family: 'Misans';
+      transition: all 0.5s;
+   }
+   table{
+      width: 800px;
+      margin: 0 auto;
+      font-size: 20px;
+      font-family: '小米兰亭';
+      line-height: 50px;
+   }
+   .box{
+      width: 880px;
+      margin: 0 auto;
+      padding-top: 40px;
+      border-radius: 20px;
+      box-shadow: 0px -1px 10px rgba(0, 105, 241, 0.207);
+      margin-bottom: 50px;
+      padding-bottom: 10px;
+      margin-top: 200px;
+      transition: all 0.5s;
+   }
+   th{
+      font-size: 22px;
+      color: rgb(0, 93, 214);
+   }
+   td{
+      color: rgba(26, 64, 114, 0.753);
+   }
+   .nav{
+      user-select: none !important;
+   }
+   thead{
+      border-top: 2px solid rgba(0, 119, 230, 0.15);
+      border-bottom: 2px solid rgba(0, 119, 230, 0.15);
+   }
+</style>
+
+<body>
+   <div class="top-nav">
+        <img src="../static/png/xdf.png" class="navPic" style="width: 80px;position: absolute;
+                                                                margin-top: 15px;margin-left: 130px;"></img>
+        <div class="shouye nav" onclick="back()">首页</div>
+        <div class="ciku nav" onclick="base()">新东方词库</div>
+        <div class="star nav" onclick="star()">星标单词</div>
+    </div>
+
+   <div class="num">星标单词总量 {{wordNum}} 个</div>
+
+   <div class="box">
+      <table>
+         <thead>
+            <tr>
+               <th>日期</th>
+               <th>英文</th>
+               <th>中文</th>
+            </tr>
+         </thead>
+         <tbody>
+            {% for items in data_list %}
+            <tr>
+               <td>{{items.time}}</td>
+               <td>{{items.word}}</td>
+               <td>{{items.chinese}}</td>
+            {% endfor %}
+            </tr>
+         </tbody>
+      </table>
+   </div>
+</body>
+</html>
